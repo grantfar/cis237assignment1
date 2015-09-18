@@ -41,8 +41,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="controlClass.cs" />
+    <Compile Include="CSVProcessor.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="wineItem.cs" />
+    <Compile Include="wineItemCollection.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

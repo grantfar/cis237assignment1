@@ -6,12 +6,14 @@ using System.Threading.Tasks;
 
 namespace assignment1
 {
-    private class wineItemCollection
+    // A Class used to hold and search through the wine database
+    class wineItemCollection
     {
         private wineItem[] collectionArray;
-        public wineItemCollection(CSVProcessor refrence):this(refrence.WineArray, refrence.LongestDescriptionLength, refrence.LongestIdLength)
+        public wineItemCollection(CSVProcessor refrence)
+            : this(refrence.WineArray, refrence.LongestDescriptionLength, refrence.LongestIdLength)
         { }
-        
+
         public wineItemCollection(String[][] wineArray, int padDescription, int padID)
         {
             collectionArray = new wineItem[wineArray.Length];
@@ -29,6 +31,19 @@ namespace assignment1
                     return collectionArray[i];
             }
             return null;
+        }
+        public void AddWine(wineItem addedWine)
+        {
+            List<wineItem> temp = collectionArray.ToList();
+            temp.Add(addedWine);
+            collectionArray = temp.ToArray();
+        }
+        public override string ToString()
+        {
+            String returnString = "";
+            foreach (wineItem w in collectionArray)
+                returnString += w.ToString() + Environment.NewLine;
+            return returnString;
         }
     }
 }

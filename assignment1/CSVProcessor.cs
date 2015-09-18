@@ -3,17 +3,20 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.IO;
 
 namespace assignment1
 {
-    private class CSVProcessor
+    class CSVProcessor
     {
         private System.IO.StreamReader wineReader;
         private String[][] wineArray;
         private int longestDescriptionLength;
         private int longestIdLength;
+        private string pathString;
         public CSVProcessor(String csvPathString)
         {
+            pathString = csvPathString;
             wineReader = new System.IO.StreamReader(csvPathString);
             wineArrayCreator();
             setLengths();
@@ -70,6 +73,12 @@ namespace assignment1
                 if (s[1].Length > longestDescriptionLength)
                     longestDescriptionLength = s[1].Length;
             }
+        }
+        public void AddWine(wineItem addedWine)
+        {
+            StreamWriter wineWriter = File.AppendText(pathString);
+            wineWriter.WriteLine(addedWine.WineId + "," + addedWine.WineDescription + "," + addedWine.WinePack);
+            wineWriter.Close();
         }
         public String[][] WineArray
         {
