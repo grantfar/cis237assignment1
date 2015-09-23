@@ -1,3 +1,0 @@
-C:\Users\Grant\cis237assignment1\datafiles\WineList.csv
-39171,72791,31073
-1234,test,4

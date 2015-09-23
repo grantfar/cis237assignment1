@@ -6,29 +6,28 @@ using System.Threading.Tasks;
 
 namespace assignment1
 {
+    /// <summary>
+    /// A class to hold a single wine
+    /// </summary>
     class wineItem
     {
+        //class variables
         protected String wineId;
         private String wineDescriptionString;
         private String winePackString;
-        private int longestIdLength;
-        private int longestDescriptionLength;
 
-        public wineItem(String id, String description, String pack): this(id,description,pack,0,0)
-        {
-        }
-        public wineItem(String id, String description, String pack, int padDescription, int padID)
+        public wineItem(String id, String description, String pack)
         {
             wineId = id;
             wineDescriptionString = description;
             winePackString = pack;
-            longestIdLength = padID;
-            longestDescriptionLength = padDescription;
         }
+        //for finding a wine item
         public wineItem(String id)
         {
             wineId = id;
         }
+        //non editable variables
         public String WineId
         {
             get
@@ -52,10 +51,12 @@ namespace assignment1
                 return winePackString;
             }
         }
+        //overridden ToString
         public override string ToString()
         {
-            return "ID: " + wineId.PadRight(longestIdLength + 2) + "Description: " + wineDescriptionString.PadRight(longestDescriptionLength + 2) + "Pack: " + winePackString;
+            return "ID: " + wineId + "    Description: " + wineDescriptionString + "    Pack: " + winePackString;
         }
+        //equal if both are same class and share the same ID
         public override bool Equals(object obj)
         {
             if (obj.GetType().Equals(this.GetType()))

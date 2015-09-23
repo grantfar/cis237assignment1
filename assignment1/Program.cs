@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.IO;
 
 namespace assignment1
 {
@@ -10,20 +11,22 @@ namespace assignment1
     {
         static void Main(string[] args)
         {
-            string csvPathString = "";
-            //tests to see if path given is valid
-            while (!System.IO.File.Exists(csvPathString))
-            {
-                System.Console.WriteLine("Please enter wine list file path");
-                csvPathString = System.Console.ReadLine();
-            }
-            CSVProcessor onlyRunOneCSVProcessor = new CSVProcessor(csvPathString);
+            //Initializes Each of the other classes
+            CSVProcessor onlyRunOneCSVProcessor = new CSVProcessor(upPath(3,Environment.CurrentDirectory) + "\\datafiles\\WineList.csv");
             wineItemCollection theWineCollection = new wineItemCollection(onlyRunOneCSVProcessor);
             controlClass controlTheProgram = new controlClass(theWineCollection, onlyRunOneCSVProcessor);
+            //repeats the ui
             while(true)
             {
                 controlTheProgram.PrintPrompt();
             }
+        }
+        //moves file path up directories
+        private static String upPath(int numUp, string path)
+        {
+            if(numUp <= 0)
+                return path;
+            return upPath(numUp - 1, Directory.GetParent(path).ToString());
         }
 
     }

@@ -7,49 +7,26 @@ using System.IO;
 
 namespace assignment1
 {
+    /// <summary>
+    /// A Class for handling the csv file
+    /// </summary>
     class CSVProcessor
     {
         private System.IO.StreamReader wineReader;
         private String[][] wineArray;
-        private int longestDescriptionLength;
-        private int longestIdLength;
         private string pathString;
         public CSVProcessor(String csvPathString)
         {
             pathString = csvPathString;
-            wineReader = new System.IO.StreamReader(csvPathString);
             wineArrayCreator();
-            setLengths();
-        }
-
-        public int LongestIdLength
-        {
-            get
-            {
-                return longestIdLength;
-            }
-            set
-            {
-                longestIdLength = value;
-            }
-                
-        }
-        public int LongestDescriptionLength
-        {
-            get
-            {
-                return longestDescriptionLength;
-            }
-            set
-            {
-                longestDescriptionLength = value;
-            }
 
         }
+        //initial read in. only called by the constructer
         private void wineArrayCreator()
         {
             String[] tempWineArray;
             List<String> wineList = new List<string>();
+            wineReader = new System.IO.StreamReader(pathString);
             while (!wineReader.EndOfStream)
             {
                 wineList.Add(wineReader.ReadLine());
@@ -62,23 +39,35 @@ namespace assignment1
                 wineArray[i] = tempWineArray;
             }
         }
-        private void setLengths()
-        {
-            longestDescriptionLength = 0;
-            longestIdLength = 0;
-            foreach (String[] s in wineArray)
-            {
-                if (s[0].Length > longestIdLength)
-                    longestIdLength = s[0].Length;
-                if (s[1].Length > longestDescriptionLength)
-                    longestDescriptionLength = s[1].Length;
-            }
-        }
+
+        //adds a wine to the csv list
         public void AddWine(wineItem addedWine)
         {
             StreamWriter wineWriter = File.AppendText(pathString);
             wineWriter.WriteLine(addedWine.WineId + "," + addedWine.WineDescription + "," + addedWine.WinePack);
             wineWriter.Close();
+        }
+        //removes the wine from the csv file
+        public void RemoveWine(wineItem removedWine)
+        {
+            List<String> newWineList = new List<String>();
+            StreamReader wineReader = new StreamReader(pathString);
+            String readLineString;
+            //reads in all wines besides the specified wine
+            while(!wineReader.EndOfStream)
+            {
+                readLineString = wineReader.ReadLine();
+                if(!readLineString.Split(',')[0].Equals(removedWine.WineId))
+                {
+                    newWineList.Add(readLineString);
+                }
+            }
+            wineReader.Close();
+            //writes the read in lines to the csv after eracing it
+            StreamWriter newFileWriter = new StreamWriter(File.Open(pathString, FileMode.Create));
+            foreach (string s in newWineList)
+                newFileWriter.WriteLine(s);
+            newFileWriter.Close();
         }
         public String[][] WineArray
         {
